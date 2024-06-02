@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from mpl_toolkits.mplot3d import Axes3D
 
 class Figure:
     def __init__(self, dots):
@@ -79,10 +80,10 @@ class Figure:
         y_array = []
         z_array = []
 
-        for point in self.points:
-            x_value = point[0] * matrix[0, 0] + point[1] * matrix[0, 1] + point[2] * matrix[0, 2]
-            y_value = point[0] * matrix[1, 0] + point[1] * matrix[1, 1] + point[2] * matrix[1, 2]
-            z_value = point[0] * matrix[2, 0] + point[1] * matrix[2, 1] + point[2] * matrix[2, 2]
+        for i in self.dots:
+            x_value = i[0] * matrix[0, 0] + i[1] * matrix[0, 1] + i[2] * matrix[0, 2]
+            y_value = i[0] * matrix[1, 0] + i[1] * matrix[1, 1] + i[2] * matrix[1, 2]
+            z_value = i[0] * matrix[2, 0] + i[1] * matrix[2, 1] + i[2] * matrix[2, 2]
             x_array.append(x_value)
             y_array.append(y_value)
             z_array.append(z_value)
@@ -116,24 +117,51 @@ heart = Figure(create_heart())
 triangle = Figure(create_triangle())
 mat = np.array([[1,3], [2,5]])
 
-
+a, b = create_heart()[:, 0], create_heart()[:, 1]
 ##a, b = heart.rotate(360)
 ## a, b = heart.scale(1/2)
 ##a,b = heart.reflect(1, -1,0)
-a,b = heart.tilt_y(2)
+##a,b = heart.tilt_y(2)
 ##a,b = heart.universal_transformation_2D(mat)
-c, d = triangle.rotate(90)
+c, d = create_triangle()[:, 0], create_triangle()[:, 1]
+##c, d = triangle.rotate(90)
 ## c, d = triangle.scale(1/2)
 ##c,d = triangle.reflect(1, -1,0)
 ##c,d = triangle.tilt_y(2)
 #c,d = triangle.universal_transformation_2D(mat)
 ##c, d = triangle.tilt_x(9)
-drawing_figures(a,b,c,d)
+#drawing_figures(a,b,c,d)
 
+vertices = np.array([
+    [0, 0, 0],
+    [1, 0, 0],
+    [0.5, np.sqrt(3)/2, 0],
+    [0.5, np.sqrt(3)/6, np.sqrt(2/3)]
+])
 
+transformation_matrix = np.array([
+    [1, 0, 4],
+    [0, 1, 0],
+    [0, 0, 1]
+])
+three_d_figure = Figure(vertices)
 
+x_transformed, y_transformed, z_transformed = three_d_figure.universal_transformation_3D(transformation_matrix)
 
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
 
+ax.scatter(x_transformed, y_transformed, z_transformed, color='red')
+for i in range(len(x_transformed)):
+    for j in range(i + 1, len(x_transformed)):
+        ax.plot([x_transformed[i], x_transformed[j]], [y_transformed[i], y_transformed[j]], [z_transformed[i], z_transformed[j]], color='red')
+
+ax.set_xlabel('X Axis')
+ax.set_ylabel('Y Axis')
+ax.set_zlabel('Z Axis')
+ax.legend()
+
+plt.show()
 
 
 
