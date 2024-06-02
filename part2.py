@@ -2,7 +2,6 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Load an image
 image = cv2.imread("C:/Users/marti/Downloads/froggy.jpg")
 image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
@@ -26,17 +25,14 @@ def perspective_transform(image, pts1, pts2):
     transformed = cv2.warpPerspective(image, M, (image.shape[1], image.shape[0]))
     return transformed
 
-# Apply transformations
 translated_image = translate(image, 100, 50)
 rotated_image = rotate(image, 45)
 scaled_image = scale(image, 0.5, 0.5)
 
-# Define points for perspective transform
 pts1 = np.float32([[50, 50], [200, 50], [50, 200], [200, 200]])
 pts2 = np.float32([[10, 100], [200, 50], [100, 250], [240, 200]])
 perspective_image = perspective_transform(image, pts1, pts2)
 
-# Display images
 plt.figure(figsize=(12, 8))
 
 plt.subplot(2, 2, 1)

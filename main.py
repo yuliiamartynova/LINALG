@@ -2,9 +2,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 class Figure:
-    def __init__(self, dots, colour):
+    def __init__(self, dots):
         self.dots = dots
-        self.colour = colour
 
     def rotate(self, degree):
         x_array = []
@@ -74,6 +73,7 @@ class Figure:
             y_array.append(y_value)
         return (np.array(x_array), np.array(y_array))
 
+
     def universal_transformation_3D(self, matrix):
         x_array = []
         y_array = []
@@ -89,45 +89,54 @@ class Figure:
 
         return np.array(x_array), np.array(y_array), np.array(z_array)
 
-
 ## фігура сердечка (рівняння з інтернету)
-t = np.linspace(0, 2 * np.pi, 1000)
-x = 16 * np.sin(t)**3
-y = 13 * np.cos(t) - 5 * np.cos(2*t) - np.cos(3*t) - np.cos(4*t)
-points_array = np.column_stack((x, y))
+def create_heart():
+    t = np.linspace(0, 2 * np.pi, 1000)
+    x = 16 * np.sin(t)**3
+    y = 13 * np.cos(t) - 5 * np.cos(2*t) - np.cos(3*t) - np.cos(4*t)
+    return np.column_stack((x, y))
 
-heart = Figure(points_array, 'red')
+def create_triangle():
+    triangle_dots = np.array([[-7, 10], [4, -11], [5, 20]])
+    return triangle_dots
 
-mat = np.array([[1,2], [-1,0]])
+def drawing_figures(a,b,c,d):
+    plt.figure(8, (8, 8))
+    plt.plot(a, b, "pink")
+    plt.grid(True)
+    plt.legend()
+
+    plt.fill(c, d, "yellow")
+    plt.axis('equal')
+    plt.legend()
+
+    plt.show()
+
+heart = Figure(create_heart())
+triangle = Figure(create_triangle())
+mat = np.array([[1,3], [2,5]])
+
+
 ##a, b = heart.rotate(360)
 ## a, b = heart.scale(1/2)
 ##a,b = heart.reflect(1, -1,0)
-##a,b = heart.tilt_y(2)
-a,b = heart.universal_transformation_2D(mat)
+a,b = heart.tilt_y(2)
+##a,b = heart.universal_transformation_2D(mat)
+c, d = triangle.rotate(90)
+## c, d = triangle.scale(1/2)
+##c,d = triangle.reflect(1, -1,0)
+##c,d = triangle.tilt_y(2)
+#c,d = triangle.universal_transformation_2D(mat)
+##c, d = triangle.tilt_x(9)
+drawing_figures(a,b,c,d)
 
 
 
-plt.figure(8, (8,8))
-plt.plot(x, y, heart.colour)
-plt.grid(True)
-plt.xlabel('X Axis')
-plt.ylabel('Y Axis')
-plt.legend()
 
 
-triangle_dots = np.array([[-7, 10], [4, -11], [5, 20]])
-triangle = Figure(triangle_dots, 'black')
-c, d = triangle.tilt_x(2)
-vertices = triangle_dots
-##vertices = np.array(list(zip(c,d)))
-# Plot the triangle
-plt.fill(vertices[:, 0], vertices[:, 1], 'green')
-plt.plot(vertices[:, 0], vertices[:, 1], 'black')
-plt.axis('equal')
-plt.grid(True)
-plt.legend()
 
-plt.show()
+
+
 
 
 
