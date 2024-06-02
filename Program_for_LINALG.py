@@ -78,7 +78,7 @@ heart = Figure(points_array, 'red')
 
 ##a, b = heart.rotate(360)
 ## a, b = heart.scale(1/2)
-a,b = heart.reflect(1, -1,0)
+##a,b = heart.reflect(1, -1,0)
 ##a,b = heart.tilt_y(2)
 
 ## тут малюю
